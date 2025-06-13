@@ -29,6 +29,7 @@ import {
 import { Button } from "./ui/button";
 import { signIn, signOut } from "next-auth/react";
 import toast from "react-hot-toast";
+import { redirect } from "next/navigation";
 export function NavUser({ userData }: { userData: FusionAuthUser | false | null }) {
   const { isMobile } = useSidebar();
 
@@ -91,14 +92,7 @@ export function NavUser({ userData }: { userData: FusionAuthUser | false | null 
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
-                <DropdownMenuItem>
-                  <Sparkles />
-                  Upgrade to Pro
-                </DropdownMenuItem>
-              </DropdownMenuGroup>
-              <DropdownMenuSeparator />
-              <DropdownMenuGroup>
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={() => redirect("/account")}>
                   <BadgeCheck />
                   Account
                 </DropdownMenuItem>
