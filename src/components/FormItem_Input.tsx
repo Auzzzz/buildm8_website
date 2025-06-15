@@ -8,6 +8,7 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
+import { Textarea } from "~/components/ui/textarea"
 
 interface FormItemInputProps {
   control: Control
@@ -38,21 +39,37 @@ export function FormItem_Input({
    control={control}
    name={name}
    render={({ field }) => (
-      // removed className={className}
-     <FormItem>
-       {label && <FormLabel>{label}</FormLabel>}
-       <FormControl>
-         <Input
-           className={inputClassname}
-           type={type}
-           placeholder={placeholder}
-           {...field}
-           disabled={disabled}
-         />
-       </FormControl>
-       <FormMessage />
-       {description && <FormDescription>{description}</FormDescription>}
-     </FormItem>
+     // removed className={className}
+     type === "textarea" ? (
+       <FormItem>
+         {label && <FormLabel>{label}</FormLabel>}
+         <FormControl>
+           <Textarea
+             className={inputClassname}
+             placeholder={placeholder}
+             {...field}
+             disabled={disabled}
+           />
+         </FormControl>
+         <FormMessage />
+         {description && <FormDescription>{description}</FormDescription>}
+       </FormItem>
+     ) : (
+       <FormItem>
+         {label && <FormLabel>{label}</FormLabel>}
+         <FormControl>
+           <Input
+             className={inputClassname}
+             type={type}
+             placeholder={placeholder}
+             {...field}
+             disabled={disabled}
+           />
+         </FormControl>
+         <FormMessage />
+         {description && <FormDescription>{description}</FormDescription>}
+       </FormItem>
+     )
    )}
  />
  </div>

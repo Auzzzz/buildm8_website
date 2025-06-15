@@ -1,5 +1,5 @@
 "use server";
-import AccountUserInformation from "~/components/account/userInfomation";
+import Account_User_Information from "~/components/account/userInfomation";
 import { auth } from "~/server/auth";
 import { isTokenValid } from "~/server/server_lib/isLogged";
 import { fusionClient } from "~/server/fusionClient";
@@ -77,7 +77,7 @@ export default async function Page() {
 
 
     return (
-      <AccountUserInformation userData={userData} updateUser={updateUser} />
+      <Account_User_Information userData={userData} updateUser={updateUser} />
 
     );
   } else {

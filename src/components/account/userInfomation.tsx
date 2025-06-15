@@ -38,7 +38,7 @@ import toast from "react-hot-toast";
 import type { accountUpdateUser } from "~/lib/types/types_account";
 
 
-export default function AccountUserInformation({
+export default function Account_User_Information({
   userData,
   updateUser,
 }: {

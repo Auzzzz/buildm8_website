@@ -1,10 +1,27 @@
+"use client";
+
 import type { ColumnDef } from "@tanstack/react-table";
 import { Building2, Hammer } from "lucide-react";
-import React from "react";
+import { redirect } from "next/navigation";
+import React, { useState } from "react";
 import All_Job_List, { type Payment } from "~/components/jobs/alljoblist";
 import { Job_List } from "~/components/jobs/joblist";
 import { Pie_Chart } from "~/components/jobs/piechart";
+import Search_Company_Dialog from "~/components/jobs/searchcompanydialog";
 import { Button } from "~/components/ui/button";
+
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "~/components/ui/dialog";
+import { Input } from "~/components/ui/input";
+import { Label } from "~/components/ui/label";
 
 import {
   Card,
@@ -55,7 +72,17 @@ const payments: Payment[] = [
   },
 ];
 
-const page = () => {
+export default function Job() {
+
+    const companySearch = () => {
+
+        return (
+            <div> Hi </div>
+        )
+
+    }
+
+
   return (
     <div>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
@@ -100,14 +127,21 @@ const page = () => {
         </Card>
       </div>
       <div className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
-        <Button variant="outline" className="backgroundColor: bg-test">
+        <Button
+          variant="outline"
+          className="backgroundColor: bg-test"
+          onClick={() => redirect("/job/new")}
+        >
           Create a Job
         </Button>
-        <Button variant="outline">Search for a Company</Button>
+        <Button variant="outline" >
+          Search for a Company
+        </Button>
         <Button variant="outline">View Receipts</Button>
       </div>
+       {companySearch()}
       <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-1 md:grid-cols-2">
-        <Job_List jobs={jobData}/>
+        <Job_List jobs={jobData} />
         <Pie_Chart
           name="Test Chart"
           description="This is a test chart"
@@ -115,9 +149,7 @@ const page = () => {
           trending_description="#trust"
         />
       </div>
-      <All_Job_List data={payments}/>
+      <All_Job_List data={payments} />
     </div>
   );
-};
-
-export default page;
+}
