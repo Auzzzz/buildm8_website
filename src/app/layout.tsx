@@ -15,6 +15,7 @@ import AuthProvider from "~/lib/providers/auth-provider";
 import { auth } from "~/server/auth";
 import { getUserInformation } from "~/server/server_lib/isLogged";
 import NextBreadcrumb from "~/components/root/breadcrums";
+import Not_logged_In from "~/components/root/notloggedin";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -40,6 +41,7 @@ export default async function RootLayout({
   let userData;
   if (session?.user?.id) {
     const user = await getUserInformation(session.user.id);
+    console.log("User data:", user);
     userData = user;
   } else {
     userData = null;
@@ -50,7 +52,9 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+
         <AuthProvider>
+          {userData != null ? (
           <SidebarProvider>
             <AppSidebar userData={userData} />
             <SidebarInset>
@@ -78,6 +82,9 @@ export default async function RootLayout({
               </div>
             </SidebarInset>
           </SidebarProvider>
+          ) : (
+            <Not_logged_In />
+          )}
         </AuthProvider>
       </body>
     </html>
