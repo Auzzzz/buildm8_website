@@ -11,6 +11,7 @@ export const env = createEnv({
       process.env.NODE_ENV === "production"
         ? z.string()
         : z.string().optional(),
+    API_URL: z.string(),
     FUSIONAUTH_CLIENT_ID: z.any(),
     FUSIONAUTH_CLIENT_SECRET: z.any(),
     FUSIONAUTH_ISSUER: z.any(),
@@ -37,6 +38,7 @@ export const env = createEnv({
    */
   runtimeEnv: {
     AUTH_SECRET: process.env.AUTH_SECRET,
+    API_URL: process.env.API_URL,
     FUSIONAUTH_CLIENT_ID: process.env.FUSIONAUTH_CLIENT_ID,
     FUSIONAUTH_CLIENT_SECRET: process.env.FUSIONAUTH_CLIENT_SECRET,
     FUSIONAUTH_ISSUER: process.env.FUSIONAUTH_ISSUER,
