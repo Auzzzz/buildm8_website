@@ -18,9 +18,9 @@ interface SearchCompanyDialogProps {
     open: boolean;
     }
 
-export default function Search_Company_Dialog(props: SearchCompanyDialogProps) {
+export default function Search_Company_Dialog() {
   return (
-    <Dialog open={props.open} >
+    <Dialog open={true} >
       <form>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>

@@ -73,16 +73,6 @@ const payments: Payment[] = [
 ];
 
 export default function Job() {
-
-    const companySearch = () => {
-
-        return (
-            <div> Hi </div>
-        )
-
-    }
-
-
   return (
     <div>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
@@ -134,12 +124,9 @@ export default function Job() {
         >
           Create a Job
         </Button>
-        <Button variant="outline" >
-          Search for a Company
-        </Button>
-        <Button variant="outline">View Receipts</Button>
+        <Button variant="outline" disabled onClick={() => console.log("add me, search company page")}>Search for a Company</Button>
+        <Button variant="outline" disabled onClick={() => console.log("add me, view receipts ")}>View Receipts</Button>
       </div>
-       {companySearch()}
       <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-1 md:grid-cols-2">
         <Job_List jobs={jobData} />
         <Pie_Chart
@@ -149,7 +136,12 @@ export default function Job() {
           trending_description="#trust"
         />
       </div>
+			<div className="mt-8 p-2">
+				
+				<h4 className="text-2xl">All Jobs</h4>
+				<hr className="my-2" />
       <All_Job_List data={payments} />
+			</div>
     </div>
   );
 }
