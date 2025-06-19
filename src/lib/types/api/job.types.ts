@@ -12,3 +12,7 @@ export interface Job {
 export interface Job_Data {
   data: Job;
 }
+
+export interface AllJobs_Data {
+    data: Job[];
+}

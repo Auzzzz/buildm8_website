@@ -1,147 +1,45 @@
-"use client";
-
-import type { ColumnDef } from "@tanstack/react-table";
-import { Building2, Hammer } from "lucide-react";
 import { redirect } from "next/navigation";
-import React, { useState } from "react";
-import All_Job_List, { type Payment } from "~/components/jobs/alljoblist";
-import { Job_List } from "~/components/jobs/joblist";
-import { Pie_Chart } from "~/components/jobs/piechart";
-import Search_Company_Dialog from "~/components/jobs/searchcompanydialog";
-import { Button } from "~/components/ui/button";
+import { use } from "react";
+import toast from "react-hot-toast";
+import Job_Page from "~/components/jobs/job_page";
+import { type AllJobs_Data, type Job_Data } from "~/lib/types/api/job.types";
+import { auth, signOut } from "~/server/auth";
+import { apiCall } from "~/server/server_lib/API";
+import { getUserInformation } from "~/server/server_lib/isLogged";
 
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "~/components/ui/dialog";
-import { Input } from "~/components/ui/input";
-import { Label } from "~/components/ui/label";
+export default async function Job() {
+  const session = await auth();
+  // const userInfo = await getUserInformation(session?.user?.id ?? "");
+  const userInfo = false
+  var error = false;
 
-import {
-  Card,
-  CardAction,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "~/components/ui/card";
+  if (error) {
+    redirect("/error");
+  }
 
-const jobData = [
-  { id: "1", status: "Open", company: "Company A", amount: "$1000" },
-  { id: "2", status: "In Progress", company: "Company B", amount: "$1500" },
-  { id: "3", status: "Closed", company: "Company C", amount: "$2000" },
-];
+  // Get the userID to call the API to fetch all jobs for the user, return the Job_Page component with the data
+  if (userInfo != false) {
+    const userID = userInfo.user.id;
 
-const payments: Payment[] = [
-  {
-    id: "m5gr84i9",
-    amount: 316,
-    status: "success",
-    email: "ken99@example.com",
-  },
-  {
-    id: "3u1reuv4",
-    amount: 242,
-    status: "success",
-    email: "Abe45@example.com",
-  },
-  {
-    id: "derv1ws0",
-    amount: 837,
-    status: "processing",
-    email: "Monserrat44@example.com",
-  },
-  {
-    id: "5kma53ae",
-    amount: 874,
-    status: "success",
-    email: "Silas22@example.com",
-  },
-  {
-    id: "bhqecj4p",
-    amount: 721,
-    status: "failed",
-    email: "carmella@example.com",
-  },
-];
+    try {
+      const jobData = await apiCall<AllJobs_Data>(`/job/user/${userID}`, {
+        method: "GET",
+      });
 
-export default function Job() {
-  return (
-    <div>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
-        <Card>
-          <CardHeader>
-            <CardTitle>
-              <div>Open Jobs</div>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center justify-center space-x-2">
-              <Hammer size={52} strokeWidth={0.5} />
-              <h1 className="text-4xl">12</h1>
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>
-              <div>Wroked with</div>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center justify-center space-x-2">
-              <Building2 size={52} strokeWidth={0.5} />
-              <h1 className="text-4xl">12 business</h1>
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>
-              <div>Open Jobs</div>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center justify-center space-x-2">
-              <Hammer size={52} strokeWidth={0.5} />
-              <h1 className="text-4xl">12</h1>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-      <div className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
-        <Button
-          variant="outline"
-          className="backgroundColor: bg-test"
-          onClick={() => redirect("/job/new")}
-        >
-          Create a Job
-        </Button>
-        <Button variant="outline" disabled onClick={() => console.log("add me, search company page")}>Search for a Company</Button>
-        <Button variant="outline" disabled onClick={() => console.log("add me, view receipts ")}>View Receipts</Button>
-      </div>
-      <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-1 md:grid-cols-2">
-        <Job_List jobs={jobData} />
-        <Pie_Chart
-          name="Test Chart"
-          description="This is a test chart"
-          trending="all trends go up"
-          trending_description="#trust"
-        />
-      </div>
-			<div className="mt-8 p-2">
-				
-				<h4 className="text-2xl">All Jobs</h4>
-				<hr className="my-2" />
-      <All_Job_List data={payments} />
-			</div>
-    </div>
-  );
+      console.log("JobAPI jobData:", jobData);
+      return (
+        <div>
+          <Job_Page />
+        </div>
+      );
+    } catch (error) {
+      console.error("Error fetching job data:", error);
+
+      return redirect("/error");
+    }
+  } else {
+    console.error("Error fetching userID for job data:", error);
+
+    await signOut();
+  }
 }

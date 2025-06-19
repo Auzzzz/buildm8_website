@@ -1,5 +1,5 @@
 import type { FusionAuthUser } from "~/lib/types/fusionAuth";
-import { auth } from "../auth";
+import { auth, signOut } from "../auth";
 import { fusionClient } from "../fusionClient";
 
 
