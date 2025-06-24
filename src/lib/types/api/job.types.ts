@@ -1,9 +1,9 @@
 export interface Job {
     jobID: string;
-    title: string;
+    jobTitle: string;
     description: string;
     jobCreatorID: string;
-    jobBudget: number;
+    jobBudget: string;
     createdAt: string;
     updatedAt: string;
     jobStatus: string;

@@ -35,14 +35,17 @@ import {
 import type { AllJobs_Data } from "~/lib/types/api/job.types";
 import { useSession } from "next-auth/react";
 
+interface JobPageProps {
+  jobData: AllJobs_Data;
+}
 
-export default function Job_Page() {
 
-    const jobData = [
-  { id: "1", status: "Open", company: "Company A", amount: "$1000" },
-  { id: "2", status: "In Progress", company: "Company B", amount: "$1500" },
-  { id: "3", status: "Closed", company: "Company C", amount: "$2000" },
-];
+export default function Job_Page(props: JobPageProps) {
+
+
+
+const jobData = props.jobData
+console.log("Job_Page1 jobData:", jobData);
 
 const payments: Payment[] = [
   {

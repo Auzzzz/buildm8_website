@@ -36,6 +36,7 @@ import { useState } from "react";
 import type { UserData } from "~/lib/types/fusionAuth";
 import toast from "react-hot-toast";
 import type { accountUpdateUser } from "~/lib/types/types_account";
+import { displayDateAU } from "~/lib/utils";
 
 
 export default function Account_User_Information({
@@ -59,12 +60,7 @@ export default function Account_User_Information({
 
   // Set Date into readable format
   const loginDate = new Date(last_login);
-  const displayDate = loginDate.toLocaleDateString("en-AU", {
-    weekday: "short",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  const displayDate = displayDateAU(loginDate);
 
   // values for form items
   //TODO: proper check of phone number

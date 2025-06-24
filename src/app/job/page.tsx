@@ -5,12 +5,17 @@ import Job_Page from "~/components/jobs/job_page";
 import { type AllJobs_Data, type Job_Data } from "~/lib/types/api/job.types";
 import { auth, signOut } from "~/server/auth";
 import { apiCall } from "~/server/server_lib/API";
-import { getUserInformation } from "~/server/server_lib/isLogged";
+import { getUserInformation, isTokenValid } from "~/server/server_lib/isLogged";
 
 export default async function Job() {
+		const valid = await isTokenValid();
+		console.log("Job Page isTokenValid:", valid);
+		if (!valid) {
+			redirect("/login");
+		}
   const session = await auth();
-  // const userInfo = await getUserInformation(session?.user?.id ?? "");
-  const userInfo = false
+  const userInfo = await getUserInformation(session?.user?.id ?? "");
+  // var userInfo = false
   var error = false;
 
   if (error) {
@@ -29,7 +34,7 @@ export default async function Job() {
       console.log("JobAPI jobData:", jobData);
       return (
         <div>
-          <Job_Page />
+          <Job_Page jobData={jobData}/>
         </div>
       );
     } catch (error) {
@@ -40,6 +45,7 @@ export default async function Job() {
   } else {
     console.error("Error fetching userID for job data:", error);
 
-    await signOut();
+          return redirect("/error");
+
   }
 }
