@@ -4,7 +4,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { Building2, Hammer } from "lucide-react";
 import { redirect } from "next/navigation";
 import React, { use, useEffect, useState } from "react";
-import All_Job_List, { type Payment } from "~/components/jobs/alljoblist";
+import All_Job_List from "~/components/jobs/alljoblist";
 import { Job_List } from "~/components/jobs/joblist";
 import { Pie_Chart } from "~/components/jobs/piechart";
 import Search_Company_Dialog from "~/components/jobs/searchcompanydialog";
@@ -34,6 +34,7 @@ import {
 } from "~/components/ui/card";
 import type { AllJobs_Data } from "~/lib/types/api/job.types";
 import { useSession } from "next-auth/react";
+import { onlyOpenJobStatuses } from "~/lib/utils/utils.job";
 
 interface JobPageProps {
   jobData: AllJobs_Data;
@@ -45,41 +46,11 @@ export default function Job_Page(props: JobPageProps) {
 
 
 const jobData = props.jobData
-console.log("Job_Page1 jobData:", jobData);
+const openJobs = jobData.data.filter((job) =>
+  !onlyOpenJobStatuses.includes(job.jobStatus)
+)
 
-const payments: Payment[] = [
-  {
-    id: "m5gr84i9",
-    amount: 316,
-    status: "success",
-    email: "ken99@example.com",
-  },
-  {
-    id: "3u1reuv4",
-    amount: 242,
-    status: "success",
-    email: "Abe45@example.com",
-  },
-  {
-    id: "derv1ws0",
-    amount: 837,
-    status: "processing",
-    email: "Monserrat44@example.com",
-  },
-  {
-    id: "5kma53ae",
-    amount: 874,
-    status: "success",
-    email: "Silas22@example.com",
-  },
-  {
-    id: "bhqecj4p",
-    amount: 721,
-    status: "failed",
-    email: "carmella@example.com",
-  },
-];
-
+console.log("openJobs:", openJobs.length);
 
   return (
      <div>
@@ -93,7 +64,7 @@ const payments: Payment[] = [
               <CardContent>
                 <div className="flex items-center justify-center space-x-2">
                   <Hammer size={52} strokeWidth={0.5} />
-                  <h1 className="text-4xl">12</h1>
+                  <h1 className="text-4xl">{openJobs.length}</h1>
                 </div>
               </CardContent>
             </Card>
@@ -148,7 +119,7 @@ const payments: Payment[] = [
                     
                     <h4 className="text-2xl">All Jobs</h4>
                     <hr className="my-2" />
-          <All_Job_List data={payments} />
+          <All_Job_List data={jobData.data} />
                 </div>
         </div>
   )

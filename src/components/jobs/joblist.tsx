@@ -14,6 +14,7 @@ import type { AllJobs_Data } from "~/lib/types/api/job.types";
 import { displayDateAU } from "~/lib/utils";
 import { redirect } from "next/dist/server/api-utils";
 import { useRouter } from "next/navigation";
+import { onlyOpenJobStatuses } from "~/lib/utils/utils.job";
 
 interface JobListProps {
   jobs: AllJobs_Data;
@@ -33,7 +34,7 @@ export function Job_List(props: JobListProps) {
 
   // remove a job if it has a jobStatus of "closed"
   jobData = jobData.filter((job) =>
-  !["Completed", "Rejected", "Cancelled", "Hold"].includes(job.jobStatus)
+  !onlyOpenJobStatuses.includes(job.jobStatus)
 );
 
   console.log("Job_List jobData12345678:", jobData);
