@@ -158,9 +158,9 @@ export default function All_Job_List(props: AllJobListProps) {
       <div className="flex items-center py-4">
         <Input
           placeholder="Filter Job Title..."
-          value={(table.getColumn("jobTitle")?.getFilterValue() as string) ?? ""}
+          value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("jobTitle")?.setFilterValue(event.target.value)
+            table.getColumn("title")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />

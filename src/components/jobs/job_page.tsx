@@ -44,6 +44,9 @@ interface JobPageProps {
 export default function Job_Page(props: JobPageProps) {
 
 
+  if (!props.jobData || !props.jobData.data) {
+    return <div>No job data available</div>;
+  }
 
 const jobData = props.jobData
 const openJobs = jobData.data.filter((job) =>
