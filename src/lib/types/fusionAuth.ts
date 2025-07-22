@@ -1,4 +1,5 @@
 import type { JWT } from "@fusionauth/typescript-client";
+import { auth } from "~/server/auth";
 
 export type UserData = {
   id: string;
@@ -123,3 +124,39 @@ export type jwtReturn = {
   token: jwtToken;
   account: jwtAccount
 }
+
+type registration = {
+  applicationId: string;
+  data: object;
+  id: string;
+  insertInstant: number;
+  lastLoginInstant?: number;
+  lastUpdateInstant: number;
+  preferredLanguages: string[];
+  roles: string[];
+  token?: object;
+  username: string;
+  usernameStatus: string;
+  verified: boolean;
+  verifiedInstant: number;
+}
+
+
+export type decodedIDToken_Payload = {
+  aud: string;
+  exp: number;
+  iat: number;
+  iss: string;
+  sub: string;
+  jti: string;
+  authenticationType: string;
+  at_hash: string;
+  c_hash: string;
+  scope: string;
+  auth_time: number;
+  tid: string;
+  user: {
+    registrations: Array<registration>;
+  }
+}
+

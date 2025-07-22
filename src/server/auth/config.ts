@@ -11,16 +11,23 @@ import FusionAuthProvider from "next-auth/providers/fusionauth";
 //TODO: Type safety
 import { type JWT } from "next-auth/jwt";
 
+import type { decodedIDToken_Payload } from "~/lib/types/fusionAuth";
+
 declare module "next-auth" {
   interface Session {
     user: {
       id: string;
       image?: string | null;
       email?: string | null;
+      test?: string;
     } & DefaultSession["user"];
     accessToken: string;
     refreshToken: string;
     accessTokenExpires: number;
+    exp: number;
+    iat: number;
+    test?: string;
+    error?: string;
   }
 
 
@@ -61,18 +68,18 @@ export const authConfig: NextAuthConfig = {
       account?: Account | null;
     }) {
       // If signing in, add user and account info to the token
+              console.log("user:", user);
+        console.log("account:", account);
+        console.log("token:", token);
       if (account && user) {
         return {
           accessToken: account.access_token,
           refreshToken: account.refresh_token,
-          accessTokenExpires: account.expires_at!,
+          accessTokenExpires: account.expires_at! * 1000,
           user,
         };
-      } else {
-        console.error("No account or user found in JWT callback", { account, user });
       }
-      // If the token is still valid, return it
-      // TODO: Come back to this as RefreshToken provides correct data =| over initial token
+      console.log("JWT token expires at:", account);
       if (account && Date.now() < account.expires_at!) {
         return token;
       } 
@@ -87,6 +94,7 @@ export const authConfig: NextAuthConfig = {
       // Add token and user info to the session
       session.user = token.user as Session["user"];
       session.accessToken = token.accessToken as string;
+      session.error = 'RefreshAccessTokenError'
 
         console.log("session token", token);
       
@@ -103,6 +111,7 @@ export const authConfig: NextAuthConfig = {
 
 // Function to refresh the access token
 async function refreshAccessToken(token: JWT) {
+  console.log("Refreshing access token...");
   try {
     const url = `${process.env.FUSIONAUTH_ISSUER}/oauth2/token`;
 
@@ -131,7 +140,8 @@ async function refreshAccessToken(token: JWT) {
       accessTokenExpires: Date.now() + refreshedTokens.expires_in * 1000,
       refreshToken: refreshedTokens.refresh_token ?? token.refreshToken, // Use new refresh token if provided
       user: {
-        id: refreshedTokens.userId
+        id: refreshedTokens.userId,
+        // test: "test",
       }
     };
   } catch (error) {

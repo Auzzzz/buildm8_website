@@ -43,7 +43,7 @@ interface JobPageProps {
 
 export default function Job_Page(props: JobPageProps) {
 
-
+  //TODO: Create no jobs created yet component
   if (!props.jobData || !props.jobData.data) {
     return <div>No job data available</div>;
   }
