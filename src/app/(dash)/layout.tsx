@@ -44,13 +44,7 @@ export default async function RootLayout({
 }>) {
   const session = await auth();
 
-  if(session?.error === 'RefreshAccessTokenError' || session?.error === 'invalid_grant') {
-    console.log("error in session:", session?.error);
-    console.log("session", session);
-    // redirect("/api/logout");
-    // redirect("/api/logout");
-    // redirect("/logoff");
-  }
+  // session error handling done in top layout.tsx
   let userData;
   if (session?.user?.id) {
     // const user = await getUserInformation(session.user.id);

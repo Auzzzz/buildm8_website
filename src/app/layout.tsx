@@ -44,21 +44,9 @@ export default async function RootLayout({
 }>) {
   const session = await auth();
 
+  // Session error handling
   if(session?.error === 'RefreshAccessTokenError' || session?.error === 'invalid_grant') {
-    console.log("error in session:", session?.error);
-    console.log("session", session);
-    // redirect("/api/logout");
-    // redirect("/api/logout");
-    // redirect("/logoff");
-  }
-  let userData;
-  if (session?.user?.id) {
-    // const user = await getUserInformation(session.user.id);
-    const user = await getCachedUser(session.user.id);
-    console.log("User data:", user);
-    userData = user;
-  } else {
-    userData = null;
+    redirect("/logoff");
   }
 
   return (

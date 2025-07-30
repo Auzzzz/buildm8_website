@@ -94,7 +94,7 @@ export const authConfig: NextAuthConfig = {
       // Add token and user info to the session
       session.user = token.user as Session["user"];
       session.accessToken = token.accessToken as string;
-      session.error = 'RefreshAccessTokenError'
+      session.error = token.error as string | undefined;
 
         console.log("session token", token);
       
