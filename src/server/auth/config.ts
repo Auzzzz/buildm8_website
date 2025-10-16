@@ -11,26 +11,22 @@ declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
       id: string;
-      // ...other properties
-      // role: UserRole;
+      email: string;
+      name: string;
+      image: string;
     } & DefaultSession["user"];
     accessToken?: string;
     error?: string;
   }
-
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
 }
 
 declare module "next-auth/jwt" {
   interface JWT {
-    accessToken?: string;
-    refreshToken?: string;
-    accessTokenExpires?: number;
+    accessToken: string;
+    refreshToken: string;
+    accessTokenExpires: number;
     error?: string;
-    userId?: string;
+    userId: string;
   }
 }
 
@@ -129,7 +125,7 @@ export const authConfig = {
     FusionAuthProvider,
   ],
   callbacks: {
-    async jwt({ token, account, user }) {
+    async jwt({ token, account, user }): Promise<JWT> {
       // Initial sign in
       if (account && user) {
         return {
@@ -138,16 +134,16 @@ export const authConfig = {
           refreshToken: account.refresh_token,
           accessTokenExpires: account.expires_at ? account.expires_at * 1000 : Date.now() + 60 * 60 * 1000,
           userId: account.providerAccountId, // Use the FusionAuth user ID from account
-        };
+        } as JWT;
       }
 
       // Return previous token if the access token has not expired yet
       if (Date.now() < (token.accessTokenExpires ?? 0)) {
-        return token;
+        return token as JWT;
       }
 
       // Access token has expired, try to update it
-      return refreshAccessToken(token);
+      return await refreshAccessToken(token);
     },
     async session({ session, token }) {
       if (token.error) {
