@@ -34,7 +34,7 @@ export default function Not_logged_In() {
           </CardHeader>
           <CardContent className="space-y-4">
             <Button asChild className="w-full" size="lg" >
-                 <Button onClick={() => signIn('fusionauth')}>
+                 <Button onClick={() => signIn('fusionauth', { callbackUrl: '/' })} variant="default" className="w-full">
                     Sign In with FusionAuth
                     </Button>
             </Button>

@@ -26,7 +26,6 @@ import {
   SidebarRail,
 } from "~/components/ui/sidebar"
 
-import type { FusionAuthUser } from "~/lib/types/fusionAuth"
 
 
 // This is sample data.
@@ -155,11 +154,9 @@ const data = {
   ],
 }
 
-interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
-  userData: FusionAuthUser | false | null; // Replace 'any' with the appropriate type for session if known
-}
+interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {}
 
-export function AppSidebar({ userData, ...props }: AppSidebarProps) {
+export function AppSidebar({ ...props }: AppSidebarProps) {
 
   //TODO: add in teams if needed from FA data
   //TODO: make and add in logo
@@ -174,7 +171,7 @@ export function AppSidebar({ userData, ...props }: AppSidebarProps) {
         <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser userData={userData} />
+        <NavUser />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

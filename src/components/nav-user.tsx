@@ -9,7 +9,6 @@ import {
   LogOut,
   Sparkles,
 } from "lucide-react";
-import { type FusionAuthUser } from "~/lib/types/fusionAuth";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import {
   DropdownMenu,
@@ -30,13 +29,23 @@ import { Button } from "./ui/button";
 import { signIn, signOut } from "next-auth/react";
 import toast from "react-hot-toast";
 import { redirect } from "next/navigation";
-export function NavUser({ userData }: { userData: FusionAuthUser | false | null }) {
+export function NavUser() {
   const { isMobile } = useSidebar();
-
+  //TODO: NEW | Fetch user data from session & call API to get FA user data
+  //TODO: NEW | Make API Call to get user data from FusionAuth
+  const userData = {
+    user: {
+      id: "12345",
+      username: "johndoe",
+      firstName: "John",
+      lastName: "Doe",
+      email: "build@test.com",
+      imageUrl: "https://picsum.photos/200/300",
+    },
+  }
   return (
     <SidebarMenu>
       <SidebarMenuItem>
-        {userData ? (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <SidebarMenuButton
@@ -112,22 +121,6 @@ export function NavUser({ userData }: { userData: FusionAuthUser | false | null 
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-        ) : (
-          <SidebarMenuItem>
-            
-          <Button
-            variant="outline"
-            className="w-full"
-            onClick={async () => {
-              await signIn("fusionauth", { callbackUrl: "/" }).catch(() => {    
-                toast.error("An error occurred while logging out. Please try again.");
-            })
-            }}
-          >
-            <LogIn /> Log in
-          </Button>
-          </SidebarMenuItem>
-        )}
 
       </SidebarMenuItem>
     </SidebarMenu>

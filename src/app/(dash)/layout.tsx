@@ -11,16 +11,8 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "~/components/ui/sidebar";
-import AuthProvider from "~/lib/providers/auth-provider";
-import { auth, signOut } from "~/server/auth";
-import { getUserInformation } from "~/server/server_lib/isLogged";
-import NextBreadcrumb from "~/components/root/breadcrums";
-import Not_logged_In from "~/components/root/notloggedin";
-import { getCachedUser } from "~/server/server_lib/fusionAuth";
-import { ifError } from "assert";
-import { redirect } from "next/navigation";
-import SignOutComponent from "~/components/auth/signoutComponent";
 
+import NextBreadcrumb from "~/components/root/breadcrums";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -42,51 +34,32 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await auth();
-
-  // session error handling done in top layout.tsx
-  let userData;
-  if (session?.user?.id) {
-    // const user = await getUserInformation(session.user.id);
-    const user = await getCachedUser(session.user.id);
-    console.log("User data:", user);
-    userData = user;
-  } else {
-    userData = null;
-  }
-
   return (
     <>
-          {userData != null ? (
-          <SidebarProvider>
-            <AppSidebar userData={userData} />
-            <SidebarInset>
-              <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
-                <div className="flex items-center gap-2 px-4">
-                  <SidebarTrigger className="-ml-1" />
-                  <Separator
-                    orientation="vertical"
-                    className="mr-2 data-[orientation=vertical]:h-4"
-                  />
-                  
-                  <NextBreadcrumb
-                    homeElement={"Home"}
-                    separator={<span> | </span>}
-                    activeClasses="text-amber-500"
-                    containerClasses="flex py-5 bg-gradient-to-r from-purple-600 to-blue-600"
-                    listClasses="hover:underline mx-2 font-bold"
-                    capitalizeLinks
-                  />
-                </div>
-              </header>
-              <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-                {children}
-              </div>
-            </SidebarInset>
-          </SidebarProvider>
-          ) : (
-            <Not_logged_In />
-          )}
-</>
+      <SidebarProvider>
+        <AppSidebar />
+        <SidebarInset>
+          <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+            <div className="flex items-center gap-2 px-4">
+              <SidebarTrigger className="-ml-1" />
+              <Separator
+                orientation="vertical"
+                className="mr-2 data-[orientation=vertical]:h-4"
+              />
+
+              <NextBreadcrumb
+                homeElement={"Home"}
+                separator={<span> | </span>}
+                activeClasses="text-amber-500"
+                containerClasses="flex py-5 bg-gradient-to-r from-purple-600 to-blue-600"
+                listClasses="hover:underline mx-2 font-bold"
+                capitalizeLinks
+              />
+            </div>
+          </header>
+          <div className="flex flex-1 flex-col gap-4 p-4 pt-0">{children}</div>
+        </SidebarInset>
+      </SidebarProvider>
+    </>
   );
 }

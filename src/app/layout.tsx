@@ -3,23 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "../styles/globals.css";
 import { Toaster } from "react-hot-toast";
 
-import { AppSidebar } from "~/components/app-sidebar";
-
-import { Separator } from "~/components/ui/separator";
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "~/components/ui/sidebar";
 import AuthProvider from "~/lib/providers/auth-provider";
-import { auth, signOut } from "~/server/auth";
-import { getUserInformation } from "~/server/server_lib/isLogged";
-import NextBreadcrumb from "~/components/root/breadcrums";
-import Not_logged_In from "~/components/root/notloggedin";
-import { getCachedUser } from "~/server/server_lib/fusionAuth";
-import { ifError } from "assert";
-import { redirect } from "next/navigation";
-import SignOutComponent from "~/components/auth/signoutComponent";
 
 
 const geistSans = Geist({
@@ -42,13 +26,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await auth();
-
-  // Session error handling
-  if(session?.error === 'RefreshAccessTokenError' || session?.error === 'invalid_grant') {
-    redirect("/logoff");
-  }
-
   return (
     <html lang="en">
       <body
