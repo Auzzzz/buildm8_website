@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "../../styles/globals.css";
-import { Toaster } from "react-hot-toast";
 
 import { AppSidebar } from "~/components/app-sidebar";
 
@@ -34,6 +33,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <>
       <SidebarProvider>

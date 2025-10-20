@@ -9,6 +9,7 @@ import { apiCall } from "~/server/server_lib/API";
 export default async function Job() {
 		
   const session = await auth();
+  console.log("Job session:", session); 
   // var userInfo = false
   var error = false;
 

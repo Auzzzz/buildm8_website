@@ -1,6 +1,6 @@
 import { type DefaultSession, type NextAuthConfig } from "next-auth";
 import { type JWT } from "next-auth/jwt";
-
+//TODO: NEW | fix refresh token not 'refreshing'
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
  * object and keep type safety.
@@ -125,7 +125,7 @@ export const authConfig = {
     FusionAuthProvider,
   ],
   callbacks: {
-    async jwt({ token, account, user }): Promise<JWT> {
+    async jwt({ token, account, user }) {
       // Initial sign in
       if (account && user) {
         return {
@@ -134,16 +134,16 @@ export const authConfig = {
           refreshToken: account.refresh_token,
           accessTokenExpires: account.expires_at ? account.expires_at * 1000 : Date.now() + 60 * 60 * 1000,
           userId: account.providerAccountId, // Use the FusionAuth user ID from account
-        } as JWT;
+        };
       }
 
       // Return previous token if the access token has not expired yet
       if (Date.now() < (token.accessTokenExpires ?? 0)) {
-        return token as JWT;
+        return token;
       }
 
       // Access token has expired, try to update it
-      return await refreshAccessToken(token);
+      return refreshAccessToken(token);
     },
     async session({ session, token }) {
       if (token.error) {
