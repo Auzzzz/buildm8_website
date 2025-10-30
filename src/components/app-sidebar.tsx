@@ -8,6 +8,7 @@ import {
   Command,
   Frame,
   GalleryVerticalEnd,
+  House,
   Map,
   PieChart,
   Settings2,
@@ -27,7 +28,7 @@ import {
 } from "~/components/ui/sidebar"
 
 
-
+//TODO: menu icons
 // This is sample data.
 const data = {
   user: {
@@ -137,9 +138,9 @@ const data = {
   ],
   projects: [
     {
-      name: "Design Engineering",
-      url: "#",
-      icon: Frame,
+      name: "Properties",
+      url: "/properties",
+      icon: House,
     },
     {
       name: "Sales & Marketing",

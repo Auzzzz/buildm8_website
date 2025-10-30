@@ -1,4 +1,4 @@
-interface ApiCallOptions extends RequestInit {
+export interface ApiCallOptions extends RequestInit {
   data?: any; // Request payload (for POST/PUT/PATCH)
   params?: Record<string, string>; // URL parameters
 }
