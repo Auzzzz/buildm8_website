@@ -21,7 +21,7 @@ export default async function Job() {
  
 
     try {
-      const jobData = await apiCall<AllJobs_Data>(`/job/user/${userID}`, {
+      const jobData = await apiCall<AllJobs_Data>(`/job/user/${session?.user.id}`, {
         method: "GET",
       });
 

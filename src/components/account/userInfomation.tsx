@@ -33,10 +33,10 @@ import { type z } from "zod";
 
 import { Label } from "@radix-ui/react-label";
 import { useState } from "react";
-import type { UserData } from "~/lib/types/fusionAuth";
 import toast from "react-hot-toast";
 import type { accountUpdateUser } from "~/lib/types/types_account";
 import { displayDateAU } from "~/lib/utils";
+import type { UserData } from "~/lib/types/fusionAuth.types";
 
 
 export default function Account_User_Information({
